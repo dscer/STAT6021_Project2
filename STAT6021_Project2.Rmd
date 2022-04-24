@@ -1,0 +1,195 @@
+---
+title: "STAT6021 Project 2"
+author: "Dominic Scerbo (ybt7qt)"
+date: "4/23/2022"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = TRUE)
+```
+
+## Libraries
+
+```{r, echo=FALSE}
+library(tidyverse)
+library(gridExtra)
+library(ROCR)
+library(leaps)
+set.seed(1)
+```
+
+## Pre-Processing
+
+Objectives
+
+-   Read data
+
+-   Convert types as needed
+
+-   Apply transformations
+
+```{r}
+df <- read.csv('kc_house_data.csv', header = T)
+df$waterfront <- as.factor(df$waterfront)
+df$condition <- as.factor(df$condition)
+df$view <- as.factor(df$view)
+```
+
+## Visualization and Analysis
+
+Objectives
+
+-   Discover relationships
+
+-   Proportions
+
+-   Distribution
+
+-   Desities
+
+```{r}
+mytab<-table(df$waterfront, df$view)
+mytab
+```
+
+```{r}
+prop.table(mytab, 1)
+```
+
+```{r}
+ggplot(df,aes(x=floors, fill=waterfront))+
+  geom_bar(position = "fill")+
+  theme(axis.text.x = element_text(angle = 90))+
+  labs(x="", y="Proportion",
+       title="Dist")
+
+ggplot(df, aes(x=floors, fill=waterfront))+
+  geom_boxplot()+
+  coord_flip()+
+  labs(title="Dist")
+
+ggplot(df, aes(x=floors, color=waterfront))+
+  geom_density()+
+  labs(title="Density")
+```
+
+## Data Prep
+
+Objectives
+
+-   Remove null values
+
+-   Remove unnecessary variables
+
+-   Split data into train and test dataset
+
+```{r}
+Data <- df %>% 
+  select(-c(1,2,10,12,13,14,15,16,17,18,19,20,21)) %>%
+  drop_na()
+
+sample<-sample.int(nrow(Data), floor(.80*nrow(Data)), replace = F)
+train<-Data[sample, ]
+test<-Data[-sample, ]
+```
+
+## Preliminary Modeling
+
+Objective: First cut modeling using all regression methods to find feasible models
+
+```{r}
+allreg2 <- regsubsets(waterfront ~., data=Data, nbest=2)
+summary(allreg2)
+
+coef(allreg2, which.max(summary(allreg2)$adjr2))
+coef(allreg2, which.min(summary(allreg2)$cp))
+coef(allreg2, which.min(summary(allreg2)$bic))
+```
+
+## Modeling
+
+Objective: Create primary model of interest
+
+```{r}
+result<-glm(waterfront~., family="binomial", data=train)
+summary(result)
+```
+
+## Test and Evaluation
+
+Objectives: Evaluate the significance of predictors and reduce the model as needed
+
+```{r}
+
+```
+
+## Validation
+
+Objective
+
+-   Generate predictions
+
+-   Create ROC plot
+
+-   Evaluate performance via AUC
+
+-   Evaluate confusion matrix results
+
+```{r}
+preds<-predict(result,newdata=test, type="response")
+rates<-prediction(preds, test$waterfront)
+roc_result<-performance(rates,measure="tpr", x.measure="fpr")
+```
+
+```{r}
+plot(roc_result, main="ROC Curve for Waterfront")
+lines(x = c(0,1), y = c(0,1), col="red")
+```
+
+```{r}
+auc<-performance(rates, measure = "auc")
+auc@y.values
+```
+
+```{r}
+table(test$waterfront, preds>0.8)
+```
+
+```{r}
+res <- round(preds, 4)
+res
+```
+
+```{r}
+plot(res)
+```
+
+```{r}
+table(test$waterfront, preds>0.5)
+```
+
+## Predictions
+
+Objective: Create new sample and obtain prediction log odds, odds, and probability
+
+```{r}
+newdata<-data.frame()
+```
+
+```{r}
+##log odds
+predict(result,newdata)
+```
+
+```{r}
+##odds
+odds<-exp(predict(result,newdata))
+odds
+```
+
+```{r}
+##convert odds to probability
+prob<-odds/(1+odds)
+prob
+```
