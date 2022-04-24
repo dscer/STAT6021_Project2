@@ -36,6 +36,12 @@ df$condition <- as.factor(df$condition)
 df$view <- as.factor(df$view)
 ```
 
+Waterfront is a categorical variable 1 is waterfront 0 not waterfront
+
+Condition is a categorical variable describing a rating from X to X the higher meaning better condition
+
+View is a categorical variable describing a rating from X to X the higher meaning the best better veiw
+
 ## Visualization and Analysis
 
 Objectives
@@ -46,7 +52,7 @@ Objectives
 
 -   Distribution
 
--   Desities
+-   Densities
 
 ```{r}
 mytab<-table(df$waterfront, df$view)
