@@ -30,7 +30,7 @@ Objectives
 -   Apply transformations
 
 ```{r}
-df <- read.csv('kc_house_data.csv', header = T)
+df <- read.csv('.//data//kc_house_data.csv', header = T)
 df$waterfront <- as.factor(df$waterfront)
 df$condition <- as.factor(df$condition)
 df$view <- as.factor(df$view)
