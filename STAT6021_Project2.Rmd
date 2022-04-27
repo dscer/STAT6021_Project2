@@ -64,20 +64,59 @@ prop.table(mytab, 1)
 ```
 
 ```{r}
-ggplot(df,aes(x=floors, fill=waterfront))+
-  geom_bar(position = "fill")+
-  theme(axis.text.x = element_text(angle = 90))+
-  labs(x="", y="Proportion",
-       title="Dist")
-
-ggplot(df, aes(x=floors, fill=waterfront))+
-  geom_boxplot()+
-  coord_flip()+
-  labs(title="Dist")
-
-ggplot(df, aes(x=floors, color=waterfront))+
+dn1<-ggplot(train, aes(x=price, color=waterfront))+
   geom_density()+
-  labs(title="Density")
+  labs(x="waterfront", y="price", title="Price by Waterfront")
+
+dn2<-ggplot(train, aes(x=bedrooms, color=waterfront))+
+  geom_density()+
+  labs(x="waterfront", y="bedrooms", title="Bedrooms by Waterfront")
+
+dn3<-ggplot(train, aes(x=bathrooms, color=waterfront))+
+  geom_density()+
+  labs(x="waterfront", y="bathrooms", title="Bathrooms by Waterfront")
+
+dn4<-ggplot(train, aes(x=sqft_living, color=waterfront))+
+  geom_density()+
+  labs(x="waterfront", y="sqft_living", title="Sqft Living by Waterfront")
+
+dn5<-ggplot(train, aes(x=sqft_lot, color=waterfront))+
+  geom_density()+
+  labs(x="waterfront", y="sqft_lot", title="Sqft Lotby Waterfront")
+
+dn6<-ggplot(train, aes(x=floors, color=waterfront))+
+  geom_density()+
+  labs(x="waterfront", y="floors", title="Floor by Waterfront")
+
+grid.arrange(dn1, dn2, dn3, dn4, dn5, dn6, ncol = 2, nrow = 3)
+```
+
+```{r}
+bp1<-ggplot(train, aes(x=waterfront, y=price))+
+  geom_boxplot()+
+  labs(x="waterfront", y="price", title="Price by Waterfront")
+
+bp2<-ggplot(train, aes(x=waterfront, y=bedrooms))+
+  geom_boxplot()+
+  labs(x="waterfront", y="bedrooms", title="Bedrooms by Waterfront")
+
+bp3<-ggplot(train, aes(x=waterfront, y=bathrooms))+
+  geom_boxplot()+
+  labs(x="waterfront", y="bathrooms", title="Bathrooms by Waterfront")
+
+bp4<-ggplot(train, aes(x=waterfront, y=sqft_living))+
+  geom_boxplot()+
+  labs(x="waterfront", y="sqft_living", title="Sqft Living by Waterfront")
+
+bp5<-ggplot(train, aes(x=waterfront, y=sqft_lot))+
+  geom_boxplot()+
+  labs(x="waterfront", y="sqft_lot", title="Sqft Lotby Waterfront")
+
+bp6<-ggplot(train, aes(x=waterfront, y=floors))+
+  geom_boxplot()+
+  labs(x="waterfront", y="floors", title="Floor by Waterfront")
+
+grid.arrange(bp1, bp2, bp3, bp4, bp5, bp6, ncol = 2, nrow = 3)
 ```
 
 ## Data Prep
@@ -118,7 +157,7 @@ coef(allreg2, which.min(summary(allreg2)$bic))
 Objective: Create primary model of interest
 
 ```{r}
-result<-glm(waterfront~., family="binomial", data=train)
+result<-glm(waterfront~price+bedrooms+sqft_living+sqft_lot+floors+condition, family="binomial", data=train)
 summary(result)
 ```
 
