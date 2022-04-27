@@ -65,6 +65,19 @@ mytab
 prop.table(mytab, 1)
 ```
 
+As the quality of the view increases the proportion of the waterfront properties increase.
+
+```{r}
+mytab<-table(df$waterfront, df$condition)
+mytab
+```
+
+```{r}
+prop.table(mytab, 1)
+```
+
+Left skewed distribution for both type of properties.
+
 ```{r}
 dn1<-ggplot(train, aes(x=price, color=waterfront))+
   geom_density()+
