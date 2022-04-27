@@ -36,11 +36,13 @@ df$condition <- as.factor(df$condition)
 df$view <- as.factor(df$view)
 ```
 
-Waterfront is a categorical variable 1 is waterfront 0 not waterfront
+The required transformation are:
 
-Condition is a categorical variable describing a rating from X to X the higher meaning better condition
+-   Waterfront is a categorical variable 1 is waterfront 0 not waterfront, convert to factor
 
-View is a categorical variable describing a rating from X to X the higher meaning the best better veiw
+-   Condition is a categorical variable describing a rating from X to X the higher meaning better condition, convert to factor
+
+-   View is a categorical variable describing a rating from X to X the higher meaning the best better view, convert to factor
 
 ## Visualization and Analysis
 
