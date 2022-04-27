@@ -50,7 +50,7 @@ Objectives
 
 -   Proportions
 
--   Distribution
+-   Distributions
 
 -   Densities
 
@@ -225,7 +225,8 @@ plot(res)
 ```
 
 ```{r}
-table(test$waterfront, preds>0.5)
+table_mat <- table(test$waterfront, preds>0.5)
+table_mat
 ```
 
 ```{r}
@@ -236,6 +237,37 @@ paste0('The FNR is: ', FNR)
 err <- round((29+4)/(4285+4+29+5),4)
 paste0('The Error Rate is: ', err)
 ```
+
+```{r}
+precision <- function(matrix) {
+	# True positive
+    tp <- matrix[2, 2]
+	# false positive
+    fp <- matrix[1, 2]
+    return (tp / (tp + fp))
+}
+
+recall <- function(matrix) {
+# true positive
+    tp <- matrix[2, 2]# false positive
+    fn <- matrix[2, 1]
+    return (tp / (tp + fn))
+}
+
+prec <- precision(table_mat)
+paste0("Precision: ", round(prec, 4))
+rec <- recall(table_mat)
+paste0("Recall: ", round(rec, 4))
+```
+
+```{r}
+f1 <- 2 * ((prec * rec) / (prec + rec))
+f1
+```
+
+-   Precision: Precise as possible with prediction
+
+-   Recall: Catch many data points labeled as true as possible even though the precision is low
 
 ## Predictions
 
