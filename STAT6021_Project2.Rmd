@@ -166,8 +166,22 @@ summary(result)
 Objectives: Evaluate the significance of predictors and reduce the model as needed
 
 ```{r}
-
+reduced<-glm(waterfront~price+bedrooms+sqft_living, family="binomial", data=train)
+summary(reduced)
 ```
+
+```{r}
+deltaG2<-reduced$null.deviance-reduced$deviance
+deltaG2
+```
+
+```{r}
+1-pchisq(deltaG2,3)
+```
+
+$H_0 : \beta_1 = · · · = \beta_3 = 0$
+$H_a:$ at least one of the coefficients in $H_0$ is not 0.
+The test statistic is 450.4117 with a p-value that is 0. So we reject the null hypothesis, our model is useful.
 
 ## Validation
 
@@ -203,7 +217,7 @@ table(test$waterfront, preds>0.8)
 
 ```{r}
 res <- round(preds, 4)
-res
+#res
 ```
 
 ```{r}
@@ -214,22 +228,31 @@ plot(res)
 table(test$waterfront, preds>0.5)
 ```
 
+```{r}
+FPR <- round(4/(4285+4), 4)
+paste0('The FPR is: ', FPR)
+FNR <- round(29/(29+5),4)
+paste0('The FNR is: ', FNR)
+err <- round((29+4)/(4285+4+29+5),4)
+paste0('The Error Rate is: ', err)
+```
+
 ## Predictions
 
 Objective: Create new sample and obtain prediction log odds, odds, and probability
 
 ```{r}
-newdata<-data.frame()
+newdata<-data.frame(price=650000, bedrooms=3, sqft_living=3000)
 ```
 
 ```{r}
 ##log odds
-predict(result,newdata)
+predict(reduced,newdata)
 ```
 
 ```{r}
 ##odds
-odds<-exp(predict(result,newdata))
+odds<-exp(predict(reduced,newdata))
 odds
 ```
 
