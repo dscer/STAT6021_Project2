@@ -32,8 +32,8 @@ Objectives
 ```{r}
 df <- read.csv('.//data//kc_house_data.csv', header = T)
 df$waterfront <- as.factor(df$waterfront)
-df$condition <- as.factor(df$condition)
-df$view <- as.factor(df$view)
+#df$condition <- as.factor(df$condition)
+#df$view <- as.factor(df$view)
 ```
 
 The required transformation are:
@@ -79,31 +79,39 @@ prop.table(mytab, 1)
 Left skewed distribution for both type of properties.
 
 ```{r}
-dn1<-ggplot(train, aes(x=price, color=waterfront))+
+dn1<-ggplot(df, aes(x=price, color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="price", title="Price by Waterfront")
 
-dn2<-ggplot(train, aes(x=bedrooms, color=waterfront))+
+dn2<-ggplot(df, aes(x=bedrooms, color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="bedrooms", title="Bedrooms by Waterfront")
 
-dn3<-ggplot(train, aes(x=bathrooms, color=waterfront))+
+dn3<-ggplot(df, aes(x=bathrooms, color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="bathrooms", title="Bathrooms by Waterfront")
 
-dn4<-ggplot(train, aes(x=sqft_living, color=waterfront))+
+dn4<-ggplot(df, aes(x=sqft_living, color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="sqft_living", title="Sqft Living by Waterfront")
 
-dn5<-ggplot(train, aes(x=sqft_lot, color=waterfront))+
+dn5<-ggplot(df, aes(x=sqft_lot, color=waterfront))+
   geom_density()+
-  labs(x="waterfront", y="sqft_lot", title="Sqft Lotby Waterfront")
+  labs(x="waterfront", y="sqft_lot", title="Sqft Lot by Waterfront")
 
-dn6<-ggplot(train, aes(x=floors, color=waterfront))+
+dn6<-ggplot(df, aes(x=floors, color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="floors", title="Floor by Waterfront")
 
-grid.arrange(dn1, dn2, dn3, dn4, dn5, dn6, ncol = 2, nrow = 3)
+dn7<-ggplot(df, aes(x=view, color=waterfront))+
+  geom_density()+
+  labs(x="waterfront", y="view", title="View by Waterfront")
+
+dn8<-ggplot(df, aes(x=condition, color=waterfront))+
+  geom_density()+
+  labs(x="waterfront", y="condition", title="Condition by Waterfront")
+
+grid.arrange(dn1, dn2, dn3, dn4, dn5, dn6, dn7, dn8, ncol = 2, nrow = 4)
 ```
 
 ```{r}
