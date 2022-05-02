@@ -202,9 +202,7 @@ deltaG2
 1-pchisq(deltaG2,3)
 ```
 
-$H_0 : \beta_1 = · · · = \beta_3 = 0$
-$H_a:$ at least one of the coefficients in $H_0$ is not 0.
-The test statistic is 450.4117 with a p-value that is 0. So we reject the null hypothesis, our model is useful.
+$H_0 : \beta_1 = · · · = \beta_3 = 0$ $H_a:$ at least one of the coefficients in $H_0$ is not 0. The test statistic is 450.4117 with a p-value that is 0. So we reject the null hypothesis, our model is useful.
 
 ## Validation
 

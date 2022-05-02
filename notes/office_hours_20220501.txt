@@ -1,0 +1,11 @@
+General:
+- Log transform the price and talk about why
+- regsubsets is a good start for the models
+
+
+Log Model:
+- Start with all predictors and eliminate them based on utility (e.g. view)
+
+Linear Model:
+- Log transform why impact the high leverage points
+- Run some interesting single predictions through the model
