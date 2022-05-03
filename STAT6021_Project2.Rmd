@@ -115,27 +115,27 @@ grid.arrange(dn1, dn2, dn3, dn4, dn5, dn6, dn7, dn8, ncol = 2, nrow = 4)
 ```
 
 ```{r}
-bp1<-ggplot(train, aes(x=waterfront, y=price))+
+bp1<-ggplot(df, aes(x=waterfront, y=price))+
   geom_boxplot()+
   labs(x="waterfront", y="price", title="Price by Waterfront")
 
-bp2<-ggplot(train, aes(x=waterfront, y=bedrooms))+
+bp2<-ggplot(df, aes(x=waterfront, y=bedrooms))+
   geom_boxplot()+
   labs(x="waterfront", y="bedrooms", title="Bedrooms by Waterfront")
 
-bp3<-ggplot(train, aes(x=waterfront, y=bathrooms))+
+bp3<-ggplot(df, aes(x=waterfront, y=bathrooms))+
   geom_boxplot()+
   labs(x="waterfront", y="bathrooms", title="Bathrooms by Waterfront")
 
-bp4<-ggplot(train, aes(x=waterfront, y=sqft_living))+
+bp4<-ggplot(df, aes(x=waterfront, y=sqft_living))+
   geom_boxplot()+
   labs(x="waterfront", y="sqft_living", title="Sqft Living by Waterfront")
 
-bp5<-ggplot(train, aes(x=waterfront, y=sqft_lot))+
+bp5<-ggplot(df, aes(x=waterfront, y=sqft_lot))+
   geom_boxplot()+
   labs(x="waterfront", y="sqft_lot", title="Sqft Lotby Waterfront")
 
-bp6<-ggplot(train, aes(x=waterfront, y=floors))+
+bp6<-ggplot(df, aes(x=waterfront, y=floors))+
   geom_boxplot()+
   labs(x="waterfront", y="floors", title="Floor by Waterfront")
 
