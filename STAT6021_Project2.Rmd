@@ -181,7 +181,7 @@ coef(allreg2, which.min(summary(allreg2)$bic))
 Objective: Create primary model of interest
 
 ```{r}
-result<-glm(waterfront~price+bedrooms+floors+view+condition, family="binomial", data=train)
+result<-glm(waterfront~price+sqft_living+view+grade+yr_renovated+sqft_living15,, family="binomial", data=train)
 summary(result)
 ```
 
