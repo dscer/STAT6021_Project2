@@ -31,7 +31,7 @@ Objectives
 
 ```{r}
 df <- read.csv('.//data//kc_house_data.csv', header = T)
-df$waterfront <- as.factor(df$waterfront)
+#df$waterfront <- as.factor(df$waterfront)
 df$condition <- as.factor(df$condition)
 df$view <- as.factor(df$view)
 df$grade <- as.factor(df$grade)
@@ -143,6 +143,22 @@ bp6<-ggplot(df, aes(x=waterfront, y=floors))+
 grid.arrange(bp1, bp2, bp3, bp4, bp5, bp6, ncol = 2, nrow = 3)
 ```
 
+```{r}
+#fit logistic regression model
+df$logprice <- log(df$price)
+model <- glm(waterfront ~ price, data=df, family=binomial)
+
+#define new data frame that contains predictor variable
+newdata <- data.frame(price=seq(min(df$price), max(df$price),len=500))
+
+#use fitted model to predict values of vs
+newdata$waterfront = predict(model, newdata, type="response")
+
+#plot logistic regression curve
+plot(waterfront ~ price, data=df, col="steelblue")
+lines(waterfront ~ price, newdata, lwd=1)
+```
+
 ## Data Prep
 
 Objectives
@@ -181,7 +197,7 @@ coef(allreg2, which.min(summary(allreg2)$bic))
 Objective: Create primary model of interest
 
 ```{r}
-result<-glm(waterfront~price+sqft_living+view+grade+yr_renovated+sqft_living15,, family="binomial", data=train)
+result<-glm(waterfront~price+sqft_living+view+grade+yr_renovated+sqft_living15, family="binomial", data=train)
 summary(result)
 ```
 
