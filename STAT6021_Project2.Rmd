@@ -31,10 +31,10 @@ Objectives
 
 ```{r}
 df <- read.csv('.//data//kc_house_data.csv', header = T)
-#df$waterfront <- as.factor(df$waterfront)
-df$condition <- as.factor(df$condition)
-df$view <- as.factor(df$view)
-df$grade <- as.factor(df$grade)
+df$waterfront <- as.factor(df$waterfront)
+#df$condition <- as.factor(df$condition)
+#df$view <- as.factor(df$view)
+#df$grade <- as.factor(df$grade)
 ```
 
 The required transformation are:
@@ -80,7 +80,7 @@ prop.table(mytab, 1)
 Left skewed distribution for both type of properties.
 
 ```{r}
-dn1<-ggplot(df, aes(x=price, color=waterfront))+
+dn1<-ggplot(df, aes(x=log(price), color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="price", title="Price by Waterfront")
 
@@ -92,7 +92,7 @@ dn3<-ggplot(df, aes(x=bathrooms, color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="bathrooms", title="Bathrooms by Waterfront")
 
-dn4<-ggplot(df, aes(x=sqft_living, color=waterfront))+
+dn4<-ggplot(df, aes(x=log(sqft_living), color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="sqft_living", title="Sqft Living by Waterfront")
 
@@ -116,7 +116,7 @@ grid.arrange(dn1, dn2, dn3, dn4, dn5, dn6, dn7, dn8, ncol = 2, nrow = 4)
 ```
 
 ```{r}
-bp1<-ggplot(df, aes(x=waterfront, y=price))+
+bp1<-ggplot(df, aes(x=waterfront, y=log(price)))+
   geom_boxplot()+
   labs(x="waterfront", y="price", title="Price by Waterfront")
 
@@ -128,7 +128,7 @@ bp3<-ggplot(df, aes(x=waterfront, y=bathrooms))+
   geom_boxplot()+
   labs(x="waterfront", y="bathrooms", title="Bathrooms by Waterfront")
 
-bp4<-ggplot(df, aes(x=waterfront, y=sqft_living))+
+bp4<-ggplot(df, aes(x=waterfront, y=log(sqft_living)))+
   geom_boxplot()+
   labs(x="waterfront", y="sqft_living", title="Sqft Living by Waterfront")
 
