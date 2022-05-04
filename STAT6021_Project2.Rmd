@@ -32,8 +32,9 @@ Objectives
 ```{r}
 df <- read.csv('.//data//kc_house_data.csv', header = T)
 df$waterfront <- as.factor(df$waterfront)
-#df$condition <- as.factor(df$condition)
-#df$view <- as.factor(df$view)
+df$condition <- as.factor(df$condition)
+df$view <- as.factor(df$view)
+df$grade <- as.factor(df$grade)
 ```
 
 The required transformation are:
@@ -154,7 +155,7 @@ Objectives
 
 ```{r}
 Data <- df %>% 
-  select(-c(1,2,10,12,13,14,15,16,17,18,19,20,21)) %>%
+  select(-c(1,2,17,18,19)) %>%
   drop_na()
 
 sample<-sample.int(nrow(Data), floor(.80*nrow(Data)), replace = F)
@@ -167,7 +168,7 @@ test<-Data[-sample, ]
 Objective: First cut modeling using all regression methods to find feasible models
 
 ```{r}
-allreg2 <- regsubsets(waterfront ~., data=Data, nbest=2)
+allreg2 <- regsubsets(waterfront ~., data=Data, nbest=1)
 summary(allreg2)
 
 coef(allreg2, which.max(summary(allreg2)$adjr2))
@@ -180,7 +181,7 @@ coef(allreg2, which.min(summary(allreg2)$bic))
 Objective: Create primary model of interest
 
 ```{r}
-result<-glm(waterfront~price+bedrooms+sqft_living+sqft_lot+floors+condition, family="binomial", data=train)
+result<-glm(waterfront~price+bedrooms+floors+view+condition, family="binomial", data=train)
 summary(result)
 ```
 
@@ -189,7 +190,7 @@ summary(result)
 Objectives: Evaluate the significance of predictors and reduce the model as needed
 
 ```{r}
-reduced<-glm(waterfront~price+bedrooms+sqft_living, family="binomial", data=train)
+reduced<-glm(waterfront~price+sqft_living+view+grade+yr_renovated+sqft_living15, family="binomial", data=train)
 summary(reduced)
 ```
 
