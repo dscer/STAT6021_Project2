@@ -31,7 +31,7 @@ Objectives
 
 ```{r}
 df <- read.csv('.//data//kc_house_data.csv', header = T)
-df$waterfront <- as.factor(df$waterfront)
+#df$waterfront <- as.factor(df$waterfront)
 #df$condition <- as.factor(df$condition)
 #df$view <- as.factor(df$view)
 #df$grade <- as.factor(df$grade)
@@ -92,11 +92,11 @@ dn3<-ggplot(df, aes(x=bathrooms, color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="bathrooms", title="Bathrooms by Waterfront")
 
-dn4<-ggplot(df, aes(x=log(sqft_living), color=waterfront))+
+dn4<-ggplot(df, aes(x=sqft_living, color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="sqft_living", title="Sqft Living by Waterfront")
 
-dn5<-ggplot(df, aes(x=log(sqft_lot), color=waterfront))+
+dn5<-ggplot(df, aes(x=sqft_lot, color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="sqft_lot", title="Sqft Lot by Waterfront")
 
@@ -128,7 +128,7 @@ bp3<-ggplot(df, aes(x=waterfront, y=bathrooms))+
   geom_boxplot()+
   labs(x="waterfront", y="bathrooms", title="Bathrooms by Waterfront")
 
-bp4<-ggplot(df, aes(x=waterfront, y=log(sqft_living)))+
+bp4<-ggplot(df, aes(x=waterfront, y=sqft_living))+
   geom_boxplot()+
   labs(x="waterfront", y="sqft_living", title="Sqft Living by Waterfront")
 
@@ -146,17 +146,17 @@ grid.arrange(bp1, bp2, bp3, bp4, bp5, bp6, ncol = 2, nrow = 3)
 ```{r}
 #fit logistic regression model
 df$logprice <- log(df$price)
-model <- glm(waterfront ~ price, data=df, family=binomial)
+model <- glm(waterfront ~ logprice, data=df, family=binomial)
 
 #define new data frame that contains predictor variable
-newdata <- data.frame(price=seq(min(df$price), max(df$price),len=500))
+newdata <- data.frame(logprice=seq(min(df$logprice), max(df$logprice)+2*sd(df$logprice),len=500))
 
 #use fitted model to predict values of vs
 newdata$waterfront = predict(model, newdata, type="response")
 
 #plot logistic regression curve
-plot(waterfront ~ price, data=df, col="steelblue")
-lines(waterfront ~ price, newdata, lwd=1)
+plot(waterfront ~ logprice, data=df, col="steelblue")
+lines(waterfront ~ logprice, newdata, lwd=1)
 ```
 
 ## Data Prep
