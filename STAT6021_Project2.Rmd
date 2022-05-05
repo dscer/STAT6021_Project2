@@ -96,7 +96,7 @@ dn4<-ggplot(df, aes(x=log(sqft_living), color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="sqft_living", title="Sqft Living by Waterfront")
 
-dn5<-ggplot(df, aes(x=sqft_lot, color=waterfront))+
+dn5<-ggplot(df, aes(x=log(sqft_lot), color=waterfront))+
   geom_density()+
   labs(x="waterfront", y="sqft_lot", title="Sqft Lot by Waterfront")
 
