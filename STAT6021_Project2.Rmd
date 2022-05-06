@@ -321,22 +321,22 @@ f1
 Objective: Create new sample and obtain prediction log odds, odds, and probability
 
 ```{r}
-newdata<-data.frame()
+#newdata<-data.frame()
 ```
 
 ```{r}
 ##log odds
-predict(reduced,newdata)
+#predict(reduced,newdata)
 ```
 
 ```{r}
 ##odds
-odds<-exp(predict(reduced,newdata))
-odds
+#odds<-exp(predict(reduced,newdata))
+#odds
 ```
 
 ```{r}
 ##convert odds to probability
-prob<-odds/(1+odds)
-prob
+#prob<-odds/(1+odds)
+#prob
 ```
