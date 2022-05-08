@@ -219,20 +219,19 @@ summary(result)
 Objectives: Evaluate the significance of predictors and reduce the model as needed
 
 ```{r}
-reduced<-glm(waterfront~price+bathrooms+view+grade+yr_built+yr_renovated+sqft_living15+sqft_lot15+sqft_basement, family="binomial", data=train)
+reduced<-glm(waterfront~price+bathrooms+grade+yr_renovated, family="binomial", data=train)
+#reduced<-glm(waterfront~price+bathrooms+grade+yr_built+yr_renovated+sqft_living15+sqft_lot15+sqft_basement, family="binomial", data=train)
 summary(reduced)
 ```
 
 ```{r}
-deltaG2<-reduced$null.deviance-reduced$deviance
+deltaG2<-abs(result$deviance-reduced$deviance)
 deltaG2
 ```
 
 ```{r}
-1-pchisq(deltaG2,3)
+1-pchisq(deltaG2,5)
 ```
-
-$H_0 : \beta_1 = · · · = \beta_3 = 0$ $H_a:$ at least one of the coefficients in $H_0$ is not 0. The test statistic is 450.4117 with a p-value that is 0. So we reject the null hypothesis, our model is useful.
 
 ## Validation
 
@@ -253,7 +252,7 @@ roc_result<-performance(rates,measure="tpr", x.measure="fpr")
 ```
 
 ```{r}
-plot(roc_result, main="ROC Curve for Waterfront", colorize=TRUE)
+plot(roc_result, main="ROC Curve for Waterfront (Reduced View Only)", colorize=TRUE)
 lines(x = c(0,1), y = c(0,1), col="red")
 ```
 
@@ -267,12 +266,21 @@ table(test$waterfront, preds>0.8)
 ```
 
 ```{r}
+FPR <- round(0/(4289+0), 4)
+paste0('The FPR is: ', FPR)
+FNR <- round(29/(29+1),4)
+paste0('The TPR is: ', FNR)
+err <- round((29+1)/(4289+0+29+1),4)
+paste0('The Error Rate is: ', err)
+```
+
+```{r}
 res <- round(preds, 4)
 #res
 ```
 
 ```{r}
-plot(res)
+plot(res, main='Predicted Probs')
 ```
 
 ```{r}
@@ -281,12 +289,21 @@ table_mat
 ```
 
 ```{r}
-FPR <- round(4/(4285+4), 4)
+FPR <- round(3/(4286+3), 4)
 paste0('The FPR is: ', FPR)
-FNR <- round(29/(29+5),4)
-paste0('The FNR is: ', FNR)
-err <- round((29+4)/(4285+4+29+5),4)
+FNR <- round(28/(28+2),4)
+paste0('The TPR is: ', FNR)
+err <- round((28+2)/(4286+3+28+2),4)
 paste0('The Error Rate is: ', err)
+acc <- round((4286+3)/(4286+3+28+2),4)
+paste0('The Accuracy is: ', acc)
+```
+
+```{r}
+test<-data.frame(test,preds)
+ggplot(test,aes(x=preds))+
+geom_density()+
+labs(title="Density Plot of Predicted Probs")
 ```
 
 ```{r}
