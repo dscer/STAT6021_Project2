@@ -147,7 +147,7 @@ col_names <- col_names[-7]
 for (i in col_names){
     plot<-ggplot(df, aes(x=df[[i]], color=df$waterfront))+
       geom_density()+
-      labs(x="waterfront", y=i, title=paste0())
+      labs(x="waterfront", y=i, title=paste0("Density of ", i, " by Waterfront"))
     print(plot)
 }
 ```
@@ -156,7 +156,7 @@ for (i in col_names){
 for (i in col_names){
     plot<-ggplot(df, aes(x=waterfront, y=df[[i]]))+
       geom_boxplot()+
-      labs(x="waterfront", y=i, title=paste0())
+      labs(x="waterfront", y=i, title=paste0("Dist. waterfront by ", i))
     print(plot)
 }
 ```
@@ -176,7 +176,7 @@ newdata <- data.frame(price.log=seq(min(df$price.log), max(df$price.log),len=500
 newdata$waterfront = predict(model, newdata, type="response")
 
 #plot logistic regression curve
-plot(waterfront ~ price.log, data=df, col="steelblue")
+plot(waterfront ~ price.log, data=df, col="steelblue", main='Waterfront Probability')
 lines(waterfront ~ price.log, newdata, lwd=1)
 ```
 
@@ -185,6 +185,10 @@ The model shows a positive relationship between the probability of waterfront be
 ## Preliminary Modeling
 
 Objective: First cut modeling using all regression methods to find feasible models
+
+```{r}
+df$view <- as.factor(df$view)
+```
 
 ```{r}
 sample<-sample.int(nrow(df), floor(.80*nrow(df)), replace = F)
@@ -215,7 +219,7 @@ summary(result)
 Objectives: Evaluate the significance of predictors and reduce the model as needed
 
 ```{r}
-reduced<-glm(waterfront~price+bathrooms+view+grade+yr_renovated, family="binomial", data=train)
+reduced<-glm(waterfront~price+bathrooms+view+grade+yr_built+yr_renovated+sqft_living15+sqft_lot15+sqft_basement, family="binomial", data=train)
 summary(reduced)
 ```
 
